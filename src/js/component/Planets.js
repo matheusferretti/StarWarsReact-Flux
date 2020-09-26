@@ -11,7 +11,7 @@ export const Planets = props => {
 				<p className="card-text">
 					Some quick example text to build on the card title and make up the bulk of the cards content.
 				</p>
-				<Link to={"/details/" + index}>
+				<Link to={"/details/" + 1}>
 					<a href="#" className="btn btn-primary">
 						Go somewhere
 					</a>
