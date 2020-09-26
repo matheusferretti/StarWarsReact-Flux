@@ -1,23 +1,58 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import rigoImage from "../../img/rigo-baby.jpg";
 import "../../styles/home.scss";
-import {Characters} from "./component/Characters";
-import {Planets} from "./component/Planets";
+import { Characters } from "../component/Characters";
+import { Planets } from "../component/Planets";
+import { useEffect } from "react";
 
 export const Home = () => {
-    const [count, setCount] = useState (["Luke Skywalker", "CP3PO", "Darth Vader"]);
-    const [planets, setPlanets] = useState (["Planet 1", "Planet 2", "Planet 3"]);
+	const [characters, setCharacters] = useState(["Luke Skywalker", "CP3PO", "Darth Vader"]);
+	const [planets, setPlanets] = useState(["Planet 1", "Planet 2", "Planet 3"]);
 
-    return(
-        <div>
-           
-            {characters.map((item, index) => {
-                return => <Characters key={index} name={item.name}/>
-            })}
-            {planets.map((item, index) => {
-                return => <Planets key={index} name={item.name}/>
-            })}
+	useEffect(() => {
+		fetch("https://swapi.dev/api/planets/")
+			.then(function(response) {
+				if (!response.ok) {
+					throw Error(response.statusText);
+				}
+				// Read the response as json.
+				return response.json();
+			})
+			.then(function(responseAsJson) {
+				// Do stuff with the JSON
+				console.log("responseAsJson", responseAsJson);
+				setPlanets(responseAsJson.results);
+			})
+			.catch(function(error) {
+				console.log("Looks like there was a problem: \n", error);
+			});
 
-        </div>
-    )
-}
+		fetch("https://swapi.dev/api/people/")
+			.then(function(response) {
+				if (!response.ok) {
+					throw Error(response.statusText);
+				}
+				// Read the response as json.
+				return response.json();
+			})
+			.then(function(responseAsJson) {
+				// Do stuff with the JSON
+				console.log("responseAsJson", responseAsJson);
+				setCharacters(responseAsJson.results);
+			})
+			.catch(function(error) {
+				console.log("Looks like there was a problem: \n", error);
+			});
+	}, []);
+
+	return (
+		<div>
+			{characters.map((item, index) => {
+				return <Characters key={index} name={item.name} />;
+			})}
+			{planets.map((item, index) => {
+				return <Planets key={index} name={item.name} />;
+			})}
+		</div>
+	);
+};
