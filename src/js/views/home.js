@@ -48,10 +48,10 @@ export const Home = () => {
 	return (
 		<div>
 			{characters.map((item, index) => {
-				return <Characters key={index} name={item.name} />;
+				return <Characters key={index} character={item} index={index} />;
 			})}
 			{planets.map((item, index) => {
-				return <Planets key={index} name={item.name} />;
+				return <Planets key={index} planet={item} index={index} />;
 			})}
 		</div>
 	);
