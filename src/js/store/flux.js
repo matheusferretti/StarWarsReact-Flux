@@ -12,7 +12,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 			deleteFavorite: index => {
 				const newStore = getStore();
 				var newFavorites = newStore.favorites.filter((item, ind) => index !== ind);
+				//replacing favorites in line 4 w new favorites in line 14
 				setStore({ favorites: newFavorites });
+				//spreading, ex: ({...favorites: newFavorites}), allows you to keep original favorites while adding stuff to that array
 			},
 			addFavorite: name => {
 				const newStore = getStore();

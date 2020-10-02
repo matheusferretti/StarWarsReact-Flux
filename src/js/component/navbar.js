@@ -5,6 +5,7 @@ import { Context } from "../store/appContext";
 export const Navbar = () => {
 	const { store, actions } = useContext(Context);
 	const [isOpen, setIsOpen] = useState(false);
+	const handleClick = () => {};
 
 	return (
 		<nav className="navbar navbar-light bg-light mb-3">
@@ -14,6 +15,7 @@ export const Navbar = () => {
 			<div className="ml-auto">
 				<button className="btn btn-primary" onClick={() => setIsOpen(!isOpen)}>
 					Favorites
+					<span className="badge badge-secondary">{store.favorites.length}</span>
 				</button>
 				{/* //ternary condition displayed below (if dropdown is open block, else none) */}
 				<div className={isOpen ? "d-block" : "d-none"}>
