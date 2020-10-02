@@ -1,17 +1,61 @@
+import { array } from "prop-types";
+
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
-			favorites: ["Jedi 1", "Jedi 2"]
+			favorites: ["Jedi 1", "Jedi 2"],
+			characters: ["Luke Skywalker", "CP3P0", "Darth Vader"],
+			planets: ["Tatooiine", "Planet Boom", "Another Weird Planet"]
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
+			deleteFavorite: () => {},
+			addFavorite: name => {
+				const newStore = getStore();
+				newStore.favorites.push(name);
+				setStore(newStore);
+			},
 			exampleFunction: () => {
 				getActions().changeColor(0, "green");
 			},
-			loadSomeData: () => {
+			loadCharacters: () => {
+				fetch("https://swapi.dev/api/people/")
+					.then(function(response) {
+						if (!response.ok) {
+							throw Error(response.statusText);
+						}
+						// Read the response as json.
+						return response.json();
+					})
+					.then(function(responseAsJson) {
+						// Do stuff with the JSON
+						console.log("responseAsJson", responseAsJson);
+						setStore({ characters: responseAsJson.results });
+					})
+					.catch(function(error) {
+						console.log("Looks like there was a problem: \n", error);
+					});
 				/**
 					fetch().then().then(data => setStore({ "foo": data.bar }))
 				*/
+			},
+			loadPlanets: () => {
+				fetch("https://swapi.dev/api/planets/")
+					.then(function(response) {
+						if (!response.ok) {
+							throw Error(response.statusText);
+						}
+						// Read the response as json.
+						return response.json();
+					})
+					.then(function(responseAsJson) {
+						// Do stuff with the JSON
+						console.log("responseAsJson", responseAsJson);
+						setStore({ planets: responseAsJson.results });
+					})
+					.catch(function(error) {
+						console.log("Looks like there was a problem: \n", error);
+					});
 			},
 			changeColor: (index, color) => {
 				//get the store

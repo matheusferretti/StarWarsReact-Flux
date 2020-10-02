@@ -6,8 +6,6 @@ export const Navbar = () => {
 	const { store, actions } = useContext(Context);
 	const [isOpen, setIsOpen] = useState(false);
 
-	const handleClick = () => {};
-
 	return (
 		<nav className="navbar navbar-light bg-light mb-3">
 			<Link to="/">
@@ -22,7 +20,10 @@ export const Navbar = () => {
 					{store.favorites.map((item, index) => {
 						return (
 							<li key={index}>
-								{item} <i className="fas fa-times" />
+								{item}
+								<button onClick={() => actions.deleteFavorite(index)}>
+									<i className="fas fa-times" />
+								</button>
 							</li>
 						);
 					})}

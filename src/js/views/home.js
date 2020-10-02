@@ -4,6 +4,7 @@ import "../../styles/home.scss";
 import { Characters } from "../component/Characters";
 import { Planets } from "../component/Planets";
 import { useEffect } from "react";
+import { Context } from "../store/appContext";
 
 export class Home extends React.Component {
 	constructor(props) {
@@ -31,34 +32,25 @@ export class Home extends React.Component {
 			.catch(function(error) {
 				console.log("Looks like there was a problem: \n", error);
 			});
-
-		fetch("https://swapi.dev/api/people/")
-			.then(function(response) {
-				if (!response.ok) {
-					throw Error(response.statusText);
-				}
-				// Read the response as json.
-				return response.json();
-			})
-			.then(function(responseAsJson) {
-				// Do stuff with the JSON
-				console.log("responseAsJson", responseAsJson);
-				this.setState({ characters: responseAsJson.results });
-			})
-			.catch(function(error) {
-				console.log("Looks like there was a problem: \n", error);
-			});
 	}
 
 	render() {
 		return (
 			<div>
-				{this.state.characters.map((item, index) => {
-					return <Characters key={index} character={item} index={index} />;
-				})}
-				{this.state.planets.map((item, index) => {
-					return <Planets key={index} planet={item} index={index} />;
-				})}
+				<Context.Consumer>
+					{({ actions, store }) => {
+						return (
+							<>
+								{store.characters.map((item, index) => {
+									return <Characters key={index} character={item} index={index} />;
+								})}
+								{store.planets.map((item, index) => {
+									return <Planets key={index} planet={item} index={index} />;
+								})}
+							</>
+						);
+					}}
+				</Context.Consumer>
 			</div>
 		);
 	}
